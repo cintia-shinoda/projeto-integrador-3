@@ -1,25 +1,42 @@
 # Projeto Integrador em Computação III
 
-<!-- # Integrantes -->
 
 ## Tema do PI
-Desenvolver um software com framework web ou aplicativo que utilize banco de dados, inclua script web (Javascript), nuvem, acessibilidade, controle de versão, integração contínua e testes. Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dados e IoT.
+Desenvolver um software com framework web ou aplicativo que utilize banco de dados, inclua script web (Javascript), nuvem, acessibilidade, controle de versão, integração contínua e testes. 
+Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dados e IoT.
+
 
 ## Descrição do Projeto
 - App Mobile em Flutter
-- Treino interativo de escrita de Kanji
+- Treino interativo de Kanji
+
 
 ## Tecnologias Utilizadas
-
+- Flutter (Dart)
+- 
 
 ## Estrutura do Projeto
 ```bash
+├── android/
+├── build/
+├── ios/
+├── lib/
+│   ├── main.dart
+├── linux/
+├── macos/
+├── test/
+├── web/
+├── windows/
+├── analysis_options.yaml
+├── kanji_app.iml
+├── pubspec.lock
+├── pubspec.yaml
+├── README.md
 ```
 
-
 ## Checklist dos Requisitos:
-- [ ] Framework: Flutter (Linguagem: Dart)
-- [ ] Banco de Dados: MongoDB
+- [x] Framework: Flutter (Linguagem: Dart)
+- [ ] Banco de Dados:
 - [ ] JavaScript
 - [ ] Nuvem
 - [ ] Acessibilidade
@@ -27,6 +44,14 @@ Desenvolver um software com framework web ou aplicativo que utilize banco de dad
 - [ ] Integração Contínua
 - [ ] Testes
 - [ ] API
+
+
+
+
+
+
+
+
 
 
 
@@ -50,7 +75,7 @@ flutter doctor
 
 - Criação do projeto Flutter:
 ```bash
-flutter create kanji_game
+flutter create kanji_app
 cd kanji_game
 ```
 
