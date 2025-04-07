@@ -2,7 +2,7 @@
 
 
 ## Screens
-- [ ] Splash Screen
+- [x] Splash Screen
 - [ ] Cadastro
 - [ ] Login
 - [ ] Tela Inicial

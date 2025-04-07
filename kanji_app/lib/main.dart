@@ -1,18 +1,34 @@
 import 'package:flutter/material.dart';
+import 'screens/login_screen.dart';
+import 'screens/register_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+// void main() {
+//   runApp(const MyApp());
+// }
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+      title: 'Kanji App',
+      debugShowCheckedModeBanner: false,
+      home: const LoginScreen(),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      // initialRoute: '/',
+      routes: {
+        '/login': (_) => const LoginScreen(),
+        '/cadastro': (_) => const RegisterScreen(),
+      },
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -28,9 +44,8 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //   colorSchemeSeed: Colors.deepPurple,
+      // ),
     );
   }
 }
