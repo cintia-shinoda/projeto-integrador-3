@@ -49,7 +49,6 @@ https://miro.com/app/board/uXjVIOT-ok8=/?share_link_id=887937888018
 │   ├── screens/                # Telas do aplicativo
 │   │   ├── login_screen.dart
 │   │   ├── register_screen.dart
-│   │   ├── splash_screen.dart
 │   ├── services/               
 │   │   ├── api_service.dart
 │   ├── main.dart                
