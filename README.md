@@ -12,32 +12,65 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 
 
 ## Tecnologias Utilizadas
-- Flutter (Dart)
-- 
+- Front-End: Dart (Framework: Flutter)
+- Back-End: JavaScript (Framework: Node.js (Express))
+- Banco de Dados: MongoDB
+- Controle de Versão: Git/GitHub
+- IDE: Visual Studio Code
+<!-- - Testes: Postman -->
+<!-- - Deploy: Render, Heroku ou Railway -->
+<!-- - Acessibilidade: Flutter Colorblind ou Flutter Accessibility -->
+<!-- - Integração Contínua: GitHub Actions -->
+
+
+## Protótipo das Telas
+https://miro.com/app/board/uXjVIOT-ok8=/?share_link_id=887937888018
+
 
 ## Estrutura do Projeto
 ```bash
-├── android/
+├── android/ 
+│
+├── assets/
+│   ├── logo.png
+│
+├── backend/
+│   ├── models/
+│   │   ├── User.js
+│   ├── .env
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── server.js
+│
 ├── build/
 ├── ios/
-├── lib/
-│   ├── main.dart
+│
+├── lib/                   
+│   ├── screens/                # Telas do aplicativo
+│   │   ├── login_screen.dart
+│   │   ├── register_screen.dart
+│   │   ├── splash_screen.dart
+│   ├── services/               
+│   │   ├── api_service.dart
+│   ├── main.dart                
+│
 ├── linux/
 ├── macos/
 ├── test/
 ├── web/
 ├── windows/
+├── .gitignore                  # Pastas e arquivos a serem ignorados pelo Git
 ├── analysis_options.yaml
 ├── kanji_app.iml
 ├── pubspec.lock
 ├── pubspec.yaml
-├── README.md
+├── README.md                   # Documentação do projeto
 ```
 
 ## Checklist dos Requisitos:
 - [x] Framework: Flutter (Linguagem: Dart)
-- [ ] Banco de Dados:
-- [ ] JavaScript
+- [x] Banco de Dados: MongoDB
+- [x] JavaScript (Framework: Node.js(Express))
 - [ ] Nuvem
 - [ ] Acessibilidade
 - [x] Controle de Versão: Git/GitHub
@@ -46,17 +79,28 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 - [ ] API
 
 
-
-
-
-
-
-
-
-
-
 <!-- -------
 
+----------------------------------------------------
+### Clonar o projeto do GitHub
+```bash
+git clone https://github.com/cintia-shinoda/projeto-integrador-3.git
+
+cd projeto-integrador-3
+```
+
+### Front-End
+```bash
+flutter run
+```
+
+### Back-End
+```bash
+cd backend
+npm run dev
+```
+
+####################################################
 
 ## 1. Configuração do Ambiente
 - Flutter: para desenvolvimento do app
