@@ -16,66 +16,98 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 - Back-End: JavaScript (Framework: Node.js (Express))
 - Banco de Dados: MongoDB
 - Controle de Versão: Git/GitHub
+- Testes: Postman
 - IDE: Visual Studio Code
-<!-- - Testes: Postman -->
+<!-- - API: RESTful -->
 <!-- - Deploy: Render, Heroku ou Railway -->
 <!-- - Acessibilidade: Flutter Colorblind ou Flutter Accessibility -->
 <!-- - Integração Contínua: GitHub Actions -->
 
 
-## Protótipo das Telas
-https://miro.com/app/board/uXjVIOT-ok8=/?share_link_id=887937888018
-
-
 ## Estrutura do Projeto
 ```bash
-├── android/ 
+├── android/     # projeto Android
 │
-├── assets/
+├── assets/      # arquivos estáticos (imagens, fontes, etc.)
 │   ├── logo.png
 │
-├── backend/
-│   ├── models/
+├── backend/     # API em Node.js
+│   ├── controllers/
+│   │   ├── kanjiController.js
+│   │   ├── palavraController.js
+│   │   ├── tentativaController.js
+│   │   ├── userController.js
+│   │     
+│   ├── models/         # Modelos de dados
+│   │   ├── Kanji.js
+│   │   ├── Palavra.js
+│   │   ├── Tentativa.js
 │   │   ├── User.js
-│   ├── .env
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── server.js
+│   │
+│   ├── routes/         # Rotas da API
+│   │   ├── kanjiRoutes.js
+│   │   ├── palavraRoutes.js
+│   │   ├── tentativaRoutes.js
+│   │   ├── userRoutes.js
+│   │
+│   ├── .env            # Arquivo de variáveis de ambiente
+│   ├── package-lock.json 
+│   ├── package.json    # Arquivo de dependências
+│   ├── server.js       # Arquivo principal da API
 │
-├── build/
-├── ios/
+├── build/       # Arquivos de build do Flutter
 │
-├── lib/                   
-│   ├── screens/                # Telas do aplicativo
+├── ios/         # projeto iOS (Swift)
+│
+├── lib/         # Código fonte do aplicativo Flutter
+│   ├── screens/        # Telas do aplicativo
 │   │   ├── login_screen.dart
 │   │   ├── register_screen.dart
-│   ├── services/               
-│   │   ├── api_service.dart
-│   ├── main.dart                
+│   ├── services/        # Serviços de API
+│   │   ├── api_service.dart  # Conexão com a API
+│   ├── main.dart             # Ponto de entrada do aplicativo
 │
-├── linux/
-├── macos/
-├── test/
-├── web/
-├── windows/
-├── .gitignore                  # Pastas e arquivos a serem ignorados pelo Git
-├── analysis_options.yaml
-├── kanji_app.iml
-├── pubspec.lock
-├── pubspec.yaml
-├── README.md                   # Documentação do projeto
+├── linux/      # projeto Linux
+│
+├── macos/      # projeto MacOS
+│
+├── test/       # Testes
+│    
+├── web/        # projeto Web
+│
+├── windows/    # projeto Windows
+│
+├── .gitignore  # Pastas e arquivos a serem ignorados pelo Git
+│
+├── analysis_options.yaml   # Configurações de análise do Dart
+│
+├── kanji_app.iml     # Configuração do projeto
+│
+├── pubspec.lock      # Arquivo de bloqueio de dependências
+│
+├── pubspec.yaml      # Arquivo de dependências do Flutter
+│
+├── README.md         # Documentação do projeto
 ```
 
-## Checklist dos Requisitos:
-- [x] Framework: Flutter (Linguagem: Dart)
-- [x] Banco de Dados: MongoDB
-- [x] JavaScript (Framework: Node.js(Express))
-- [ ] Nuvem
-- [ ] Acessibilidade
-- [x] Controle de Versão: Git/GitHub
-- [ ] Integração Contínua
-- [ ] Testes
-- [ ] API
+
+## Projeto
+
+### Persona
+https://miro.com/app/board/uXjVIDg6SCs=/?share_link_id=872062743520
+
+### UML Use Case Diagram
+https://miro.com/app/board/uXjVIDg6SAY=/?share_link_id=118356666999
+
+### Kanban
+https://miro.com/app/board/uXjVIDCvAew=/?share_link_id=348821158940
+
+### Protótipo de Telas
+https://miro.com/app/board/uXjVIDg8nKU=/?share_link_id=804776781847
+
+### Modelo Entidade-Relacionamento (MER)
+https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
+
 
 
 <!-- -------
