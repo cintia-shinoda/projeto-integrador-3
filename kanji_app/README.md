@@ -21,8 +21,24 @@
 │   ├── logo.png
 │
 ├── backend/     # API em Node.js
+│   ├── controllers/
+│   │   ├── kanjiController.js
+│   │   ├── palavraController.js
+│   │   ├── tentativaController.js
+│   │   ├── userController.js
+│   │     
 │   ├── models/         # Modelos de dados
+│   │   ├── Kanji.js
+│   │   ├── Palavra.js
+│   │   ├── Tentativa.js
 │   │   ├── User.js
+│   │
+│   ├── routes/         # Rotas da API
+│   │   ├── kanjiRoutes.js
+│   │   ├── palavraRoutes.js
+│   │   ├── tentativaRoutes.js
+│   │   ├── userRoutes.js
+│   │
 │   ├── .env            # Arquivo de variáveis de ambiente
 │   ├── package-lock.json 
 │   ├── package.json    # Arquivo de dependências
@@ -33,11 +49,26 @@
 ├── ios/         # projeto iOS (Swift)
 │
 ├── lib/         # Código fonte do aplicativo Flutter
+│   ├── models/
+│   │   ├── kanji.dart
+│   │   ├── palavra.dart
+│   │   ├── tentativa.dart
+│   │   ├── usuario.dart
+│   │
 │   ├── screens/        # Telas do aplicativo
+│   │   ├── home_screen.dart
 │   │   ├── login_screen.dart
 │   │   ├── register_screen.dart
-│   ├── services/       # Serviços de API
+│   │   ├── splash_screen.dart
+│   │   ├── test_screen.dart
+│   │
+│   ├── services/        # Serviços de API
 │   │   ├── api_service.dart  # Conexão com a API
+│   │
+│   ├── widgets/
+│   │   ├── kanji_painter.dart
+│   │   ├── kanji_tracing_game.dart
+│   │
 │   ├── main.dart             # Ponto de entrada do aplicativo
 │
 ├── linux/      # projeto Linux
@@ -67,7 +98,7 @@
 <!-- ## Screens
 - [x] Splash Screen
 - [x] Login
-- [ ] Cadastro
+- [x] Cadastro
 - [ ] Tela Inicial (Quiz) -->
 
 <!-- - [ ] Tela do Perfil
