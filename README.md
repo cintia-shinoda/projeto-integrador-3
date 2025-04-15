@@ -60,11 +60,26 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ├── ios/         # projeto iOS (Swift)
 │
 ├── lib/         # Código fonte do aplicativo Flutter
+│   ├── models/
+│   │   ├── kanji.dart
+│   │   ├── palavra.dart
+│   │   ├── tentativa.dart
+│   │   ├── usuario.dart
+│   │
 │   ├── screens/        # Telas do aplicativo
+│   │   ├── home_screen.dart
 │   │   ├── login_screen.dart
 │   │   ├── register_screen.dart
+│   │   ├── splash_screen.dart
+│   │   ├── test_screen.dart
+│   │
 │   ├── services/        # Serviços de API
 │   │   ├── api_service.dart  # Conexão com a API
+│   │
+│   ├── widgets/
+│   │   ├── kanji_painter.dart
+│   │   ├── kanji_tracing_game.dart
+│   │
 │   ├── main.dart             # Ponto de entrada do aplicativo
 │
 ├── linux/      # projeto Linux
