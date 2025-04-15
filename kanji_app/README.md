@@ -7,10 +7,11 @@
 - Controle de Versão: Git/GitHub
 - Testes: Postman
 - IDE: Visual Studio Code
+- Integração Contínua: GitHub Actions
 <!-- - API: RESTful -->
 <!-- - Deploy: Render, Heroku ou Railway -->
 <!-- - Acessibilidade: Flutter Colorblind ou Flutter Accessibility -->
-<!-- - Integração Contínua: GitHub Actions -->
+
 
 
 ## Estrutura do Projeto
