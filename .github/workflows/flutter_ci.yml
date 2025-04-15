@@ -19,10 +19,10 @@ jobs:
         with:
           flutter-version: '>=3.18.0-18.0.pre.54'
 
-      - name: Install dependencies
+      - name: Instalar dependências
         run: flutter pub get
 
-      - name: Analyze código
+      - name: Analisar código
         run: flutter analyze
 
       - name: Executar testes
