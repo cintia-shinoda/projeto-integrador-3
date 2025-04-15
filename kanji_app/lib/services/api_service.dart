@@ -36,4 +36,15 @@ class ApiService {
       return 'Erro: $erro';
     }
   }
+
+Future<Kanji?> getKanjiAleatorio() async {
+  final response = await http.get(Uri.parse('http://SEU_BACKEND/api/kanjis/aleatorio'));
+
+  if (response.statusCode == 200) {
+    return Kanji.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Erro ao buscar kanji aleatório');
+  }
+}
+
 }

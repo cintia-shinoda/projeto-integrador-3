@@ -3,38 +3,31 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-const User = require('./models/User');
+// Importar rotas
+const kanjiRoutes = require('./routes/kanjiRoutes');
+const palavraRoutes = require('./routes/palavraRoutes');
+const tentativaRoutes = require('./routes/tentativaRoutes');
+const userRoutes = require('./routes/userRoutes'); // ✅ rota de usuários
 
 const app = express();
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
 // Conectar ao MongoDB Atlas
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('🟢 Conectado ao MongoDB'))
-  .catch(err => console.error('Erro de conexão', err));
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('🟢 Conectado ao MongoDB'))
+.catch(err => console.error('Erro de conexão', err));
 
-// Rota de cadastro
-app.post('/register', async (req, res) => {
-  const { nome, email, senha } = req.body;
-
-  const userExists = await User.findOne({ email });
-  if (userExists) return res.status(400).json({ error: 'Email já cadastrado' });
-
-  const newUser = new User({ nome, email, senha });
-  await newUser.save();
-  res.json({ message: 'Usuário cadastrado com sucesso!' });
-});
-
-// Rota de login
-app.post('/login', async (req, res) => {
-  const { email, senha } = req.body;
-
-  const user = await User.findOne({ email, senha });
-  if (!user) return res.status(401).json({ error: 'Credenciais inválidas' });
-
-  res.json({ nome: user.nome, email: user.email });
-});
+// Usar rotas da API
+app.use('/api/kanjis', kanjiRoutes);
+app.use('/api/palavras', palavraRoutes);
+app.use('/api/tentativas', tentativaRoutes);
+app.use('/api/usuarios', userRoutes); // ✅ rota ativa
 
 // Iniciar o servidor
 const port = process.env.PORT || 3000;
