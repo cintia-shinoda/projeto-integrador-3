@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/api_service.dart';
+import '../services/api_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -31,6 +31,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => email = value,
               ),
               TextFormField(
@@ -41,14 +42,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  final resposta = await ApiService.cadastrar(nome, email, senha);
+                  final sucesso = await ApiService.register(nome, email, senha);
                   setState(() {
-                    mensagem = resposta;
+                    mensagem = sucesso
+                        ? '✅ Cadastro realizado com sucesso!'
+                        : '❌ Erro ao cadastrar. Tente novamente.';
                   });
+
+                  if (sucesso) {
+                    Future.delayed(const Duration(seconds: 2), () {
+                      Navigator.pushReplacementNamed(context, '/login');
+                    });
+                  }
                 },
                 child: const Text('Cadastrar'),
               ),
-              Text(mensagem),
+              const SizedBox(height: 16),
+              Text(
+                mensagem,
+                style: TextStyle(
+                  color: mensagem.contains('✅') ? Colors.green : Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/login');
+                },
+                child: const Text('Já tem conta? Faça login'),
+              ),
             ],
           ),
         ),

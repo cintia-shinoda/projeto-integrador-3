@@ -1,50 +1,102 @@
+// lib/services/api_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../models/kanji.dart';
+import '../models/usuario.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:3000';
+  static const String baseUrl = 'http://localhost:3000/api';
 
-  static Future<String> cadastrar(String nome, String email, String senha) async {
-    final url = Uri.parse('$baseUrl/register');
-    final resposta = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'nome': nome, 'email': email, 'senha': senha}),
-    );
-
-    if (resposta.statusCode == 200) {
-      return 'Cadastro bem-sucedido!';
-    } else {
-      final erro = jsonDecode(resposta.body)['error'];
-      return 'Erro: $erro';
-    }
-  }
-
-  static Future<String> login(String email, String senha) async {
-    final url = Uri.parse('$baseUrl/login');
-    final resposta = await http.post(
-      url,
+  // Login
+  static Future<Usuario?> login(String email, String senha) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/usuarios/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'senha': senha}),
     );
 
-    if (resposta.statusCode == 200) {
-      final dados = jsonDecode(resposta.body);
-      return 'Bem-vindo, ${dados['nome']}!';
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body)['usuario'];
+      return Usuario.fromJson(data);
     } else {
-      final erro = jsonDecode(resposta.body)['error'];
-      return 'Erro: $erro';
+      return null;
     }
   }
 
-Future<Kanji?> getKanjiAleatorio() async {
-  final response = await http.get(Uri.parse('http://SEU_BACKEND/api/kanjis/aleatorio'));
+  // Registro
+  static Future<bool> register(String nome, String email, String senha) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/usuarios/register'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'nome': nome,
+        'email': email,
+        'senha': senha,
+      }),
+    );
 
-  if (response.statusCode == 200) {
-    return Kanji.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Erro ao buscar kanji aleatório');
+    return response.statusCode == 201;
   }
-}
 
+  // Obter kanji aleatório
+  static Future<Kanji?> getKanjiAleatorio() async {
+    final response = await http.get(Uri.parse('$baseUrl/kanjis/aleatorio'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return Kanji.fromJson(data);
+    } else {
+      return null;
+    }
+  }
+
+  // Registrar tentativa
+  static Future<bool> registrarTentativa({
+    required String usuarioId,
+    bool acertou = false,
+    String? palavraId,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/tentativas'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'usuario_id': usuarioId,
+        'palavra_id': palavraId,
+        'acertou': acertou,
+      }),
+    );
+
+    return response.statusCode == 201;
+  }
+
+  // Obter dados de um usuário pelo ID
+  static Future<Usuario?> getUsuario(String id) async {
+    final response = await http.get(Uri.parse('$baseUrl/usuarios'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List;
+      final userData = data.firstWhere(
+        (user) => user['_id'] == id,
+        orElse: () => null,
+      );
+
+      return userData != null ? Usuario.fromJson(userData) : null;
+    } else {
+      return null;
+    }
+  }
+
+  // Obter ranking
+  static Future<List<Usuario>> getRanking() async {
+    final response = await http.get(Uri.parse('$baseUrl/usuarios'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List;
+      List<Usuario> usuarios = data.map((json) => Usuario.fromJson(json)).toList();
+      usuarios.sort((a, b) => b.pontuacao.compareTo(a.pontuacao));
+      return usuarios;
+    } else {
+      return [];
+    }
+  }
 }
