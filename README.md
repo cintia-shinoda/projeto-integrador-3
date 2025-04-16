@@ -18,14 +18,19 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 - Controle de Versão: Git/GitHub
 - Testes: Postman
 - IDE: Visual Studio Code
+- Integração Contínua: GitHub Actions
 <!-- - API: RESTful -->
 <!-- - Deploy: Render, Heroku ou Railway -->
 <!-- - Acessibilidade: Flutter Colorblind ou Flutter Accessibility -->
-<!-- - Integração Contínua: GitHub Actions -->
+
 
 
 ## Estrutura do Projeto
 ```bash
+├── .github/  
+│   ├── workflows/   # GitHub Actions
+│   │   ├── flutter_ci.yml
+│
 ├── android/     # projeto Android
 │
 ├── assets/      # arquivos estáticos (imagens, fontes, etc.)
@@ -76,6 +81,9 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 │   ├── services/        # Serviços de API
 │   │   ├── api_service.dart  # Conexão com a API
 │   │
+│   ├── utils/
+│   │   ├── validacao.dart
+│   │
 │   ├── widgets/
 │   │   ├── kanji_painter.dart
 │   │   ├── kanji_tracing_game.dart
@@ -87,6 +95,9 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ├── macos/      # projeto MacOS
 │
 ├── test/       # Testes
+│   ├── utils/
+│   │   ├── validacao_test.dart
+│   ├── widget_test.dart
 │    
 ├── web/        # projeto Web
 │
@@ -105,6 +116,8 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ├── README.md         # Documentação do projeto
 ```
 
+---
+
 
 ## Projeto
 
@@ -122,6 +135,7 @@ https://miro.com/app/board/uXjVIDg8nKU=/?share_link_id=804776781847
 
 ### Modelo Entidade-Relacionamento (MER)
 https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
+
 
 
 
