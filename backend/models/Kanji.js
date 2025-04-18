@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// Subdocumento para os traços do kanji
 const tracoSchema = new mongoose.Schema({
   ordem: Number,
   svg: String,
@@ -12,15 +11,16 @@ const tracoSchema = new mongoose.Schema({
     x: Number,
     y: Number
   }
-}, { _id: false }); // Impede que cada traço tenha um _id automático
+}, { _id: false });
 
-// Schema principal do Kanji
 const kanjiSchema = new mongoose.Schema({
   leitura: String,
   traducao: String,
   leitura_kun: String,
   leitura_on: String,
   tracos: [tracoSchema]
+}, {
+  collection: 'kanjis'
 });
 
 module.exports = mongoose.model('Kanji', kanjiSchema);

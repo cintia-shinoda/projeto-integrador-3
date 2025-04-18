@@ -1,13 +1,23 @@
 const Kanji = require('../models/Kanji');
 
 // Retorna um kanji aleatório
+// const getKanjiAleatorio = async (req, res) => {
+//   try {
+//     const count = await Kanji.countDocuments();
+//     const random = Math.floor(Math.random() * count);
+//     const kanji = await Kanji.findOne().skip(random);
+//     res.json(kanji);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 const getKanjiAleatorio = async (req, res) => {
   try {
-    const count = await Kanji.countDocuments();
-    const random = Math.floor(Math.random() * count);
-    const kanji = await Kanji.findOne().skip(random);
+    const kanji = await Kanji.findOne(); // 👈 Sem count, sem skip, simples
     res.json(kanji);
   } catch (error) {
+    console.log('❌ Erro no sorteio:', error);
     res.status(500).json({ error: error.message });
   }
 };

@@ -139,6 +139,7 @@ https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
 
 
 
+
 <!-- -------
 
 ----------------------------------------------------
@@ -157,7 +158,8 @@ flutter run
 ### Back-End
 ```bash
 cd backend
-npm run dev
+
+node server.js
 ```
 
 ####################################################

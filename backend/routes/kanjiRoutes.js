@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 const kanjiController = require('../controllers/kanjiController');
 
-// Criar novo kanji
+// Criar novo kanji (POST/
 router.post('/', kanjiController.criarKanji);
 
-// Buscar todos os kanjis
+// Listar todos os kanjis (GET/)
 router.get('/', kanjiController.listarKanjis);
 
-// Buscar kanji Aleatório
+// Sortear kanji aleatório (GET/)
 router.get('/aleatorio', kanjiController.getKanjiAleatorio);
 
-// Buscar kanji por ID
+// Buscar kanji por ID (GET)
 router.get('/:id', kanjiController.buscarKanjiPorId);
 
 module.exports = router;

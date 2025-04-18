@@ -20,8 +20,10 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('🟢 Conectado ao MongoDB'))
-.catch(err => console.error('Erro de conexão', err));
+.then(() => {
+  console.log('🟢 Conectado ao MongoDB');
+})
+  .catch(err => console.error('Erro de conexão', err));
 
 // Usar rotas da API
 app.use('/api/kanjis', kanjiRoutes);
@@ -31,6 +33,6 @@ app.use('/api/usuarios', userRoutes); // ✅ rota ativa
 
 // Iniciar o servidor
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`🚀 Servidor rodando em http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+  console.log(`🚀 Servidor acessível em todas as interfaces na porta ${port}`);
 });

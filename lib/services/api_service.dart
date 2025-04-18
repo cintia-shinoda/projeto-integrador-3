@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/kanji.dart';
 import '../models/usuario.dart';
+import 'dart:io';
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:3000/api';
+  static final String baseUrl = Platform.isMacOS
+    ? 'http://192.168.0.12:3000/api'
+    : 'http://localhost:3000/api';
 
   // Login
   static Future<Usuario?> login(String email, String senha) async {

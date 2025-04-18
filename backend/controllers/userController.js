@@ -20,6 +20,7 @@ const register = async (req, res) => {
   }
 };
 
+
 // Autenticação (login)
 const login = async (req, res) => {
   try {
@@ -34,10 +35,10 @@ const login = async (req, res) => {
     res.json({
       message: 'Login realizado com sucesso!',
       usuario: {
-        id: user._id,
-        nome: user.nome,
-        email: user.email,
-        pontuacao: user.pontuacao
+        id: usuario._id,
+        nome: usuario.nome,
+        email: usuario.email,
+        pontuacao: usuario.pontuacao
       }
     });
   } catch (error) {
@@ -53,8 +54,14 @@ const criarUsuario = async (req, res) => {
 };
 
 const listarUsuarios = async (req, res) => {
-  const usuarios = await User.find();
-  res.json(usuarios);
+  try {
+    console.log("📥 Requisição recebida: listar usuários");
+    const usuarios = await User.find();
+    res.json(usuarios);
+  } catch (error) {
+    console.log("❌ Erro ao listar usuários:", error);
+    res.status(500).json({ error: error.message });
+  }
 };
 
 module.exports = {
