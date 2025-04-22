@@ -14,7 +14,7 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ## Tecnologias Utilizadas
 - Front-End: Dart (Framework: Flutter)
 - Back-End: JavaScript (Framework: Node.js (Express))
-- Banco de Dados: MongoDB
+- Banco de Dados: MongoDB Atlas
 - Controle de Versão: Git/GitHub
 - Testes: Postman
 - IDE: Visual Studio Code
@@ -28,8 +28,8 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ## Estrutura do Projeto
 ```bash
 ├── .github/  
-│   ├── workflows/   # GitHub Actions
-│   │   ├── flutter_ci.yml
+│   ├── workflows/
+│   │   ├── flutter_ci.yml  # Fluxo de Integração Contínua
 │
 ├── android/     # projeto Android
 │
