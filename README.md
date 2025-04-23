@@ -136,7 +136,8 @@ https://miro.com/app/board/uXjVIDg8nKU=/?share_link_id=804776781847
 ### Modelo Entidade-Relacionamento (MER)
 https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
 
-
+### Arquitetura
+https://miro.com/app/board/uXjVIAmW3ZQ=/?share_link_id=480632220145
 
 
 

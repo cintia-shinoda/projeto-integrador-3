@@ -82,20 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                       )),
                   const SizedBox(height: 20),
-                  if (kanjiAtual != null)
-                    Column(
-                      children: [
-                        Text(
-                          kanjiAtual!.leitura,
-                          style: const TextStyle(fontSize: 40),
-                        ),
-                        Text(
-                          kanjiAtual!.traducao,
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    ),
+                  
                   const SizedBox(height: 10),
                   const Expanded(child: KanjiTracingGame()),
                   Row(

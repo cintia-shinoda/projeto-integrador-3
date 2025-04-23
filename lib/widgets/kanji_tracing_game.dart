@@ -14,7 +14,7 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
   List<Offset> pontos = [];
   int tracoAtual = 0;
   String mensagem = '';
-  Kanji? kanji; // kanji carregado da API
+  Kanji? kanji;
 
   @override
   void initState() {
@@ -40,13 +40,11 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
 
   bool _verificarTraco(Offset inicio, Offset fim) {
     const double tolerancia = 40;
-
     if (kanji == null || tracoAtual >= kanji!.tracos.length) return false;
-
     final esperado = kanji!.tracos[tracoAtual];
-    bool inicioCorreto = (inicio - esperado.pontoInicio).distance < tolerancia;
-    bool fimCorreto = (fim - esperado.pontoFim).distance < tolerancia;
-
+    if (esperado.pontoInicio == null || esperado.pontoFim == null) return false;
+    bool inicioCorreto = (inicio - esperado.pontoInicio!).distance < tolerancia;
+    bool fimCorreto = (fim - esperado.pontoFim!).distance < tolerancia;
     return inicioCorreto && fimCorreto;
   }
 
@@ -58,80 +56,102 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
     });
   }
 
+  Widget _buildGestureCanvas() {
+    return GestureDetector(
+      onPanStart: (details) {
+        RenderBox box = context.findRenderObject() as RenderBox;
+        Offset local = box.globalToLocal(details.globalPosition);
+        pontos = [local];
+      },
+      onPanUpdate: (details) {
+        RenderBox box = context.findRenderObject() as RenderBox;
+        Offset local = box.globalToLocal(details.globalPosition);
+        setState(() => pontos.add(local));
+      },
+      onPanEnd: (_) {
+        if (pontos.length < 2) return;
+        Offset inicio = pontos.first;
+        Offset fim = pontos.last;
+
+        if (_verificarTraco(inicio, fim)) {
+          setState(() {
+            tracoAtual++;
+            mensagem = '✅ Traço $tracoAtual correto!';
+            pontos.clear();
+          });
+        } else {
+          setState(() {
+            mensagem = '❌ Tente novamente';
+            pontos.clear();
+          });
+        }
+      },
+      child: CustomPaint(
+        painter: _KanjiGamePainter(pontos, kanji!.tracos, tracoAtual),
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.blue, width: 2),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 300,
-          child: Container(
-            color: Colors.white,
-            child: kanji == null
-                ? const Center(child: CircularProgressIndicator())
-                : GestureDetector(
-                    onPanStart: (details) {
-                      RenderBox box = context.findRenderObject() as RenderBox;
-                      Offset local = box.globalToLocal(details.globalPosition);
-                      pontos = [local];
-                    },
-                    onPanUpdate: (details) {
-                      RenderBox box = context.findRenderObject() as RenderBox;
-                      Offset local = box.globalToLocal(details.globalPosition);
-                      setState(() => pontos.add(local));
-                    },
-                    onPanEnd: (_) {
-                      if (pontos.length < 2) return;
-                      Offset inicio = pontos.first;
-                      Offset fim = pontos.last;
-
-                      if (_verificarTraco(inicio, fim)) {
-                        setState(() {
-                          tracoAtual++;
-                          mensagem = '✅ Traço $tracoAtual correto!';
-                          pontos.clear();
-                        });
-                      } else {
-                        setState(() {
-                          mensagem = '❌ Tente novamente';
-                          pontos.clear();
-                        });
-                      }
-                    },
-                    child: CustomPaint(
-                      painter: _KanjiGamePainter(pontos, kanji!.tracos, tracoAtual),
-                      child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue, width: 2),
-                        ),
-                      ),
-                    ),
-                  ),
-          ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 20),
+            const Text("Treino de Kanji", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text("Pontuação: 0", style: TextStyle(fontSize: 16)),
+            const SizedBox(height: 10),
+            Text(kanji?.leitura ?? '', style: const TextStyle(fontSize: 40)),
+            Text(kanji?.traducao ?? '', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 300,
+              child: Container(
+                color: Colors.white,
+                child: kanji == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : _buildGestureCanvas(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              mensagem,
+              style: TextStyle(
+                fontSize: 18,
+                color: mensagem.contains('✅') ? Colors.green : Colors.red,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 20,
+              alignment: WrapAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: _limpar,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Limpar'),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _carregarKanji,
+                  icon: const Icon(Icons.autorenew),
+                  label: const Text('Novo Kanji'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
-        const SizedBox(height: 10),
-        Text(
-          mensagem,
-          style: TextStyle(
-            fontSize: 18,
-            color: mensagem.contains('✅') ? Colors.green : Colors.red,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton.icon(
-            onPressed: _limpar,
-            icon: const Icon(Icons.refresh),
-            label: const Text('Limpar'),
-          ),
-        ),
-        ElevatedButton.icon(
-          onPressed: _carregarKanji,
-          icon: const Icon(Icons.autorenew),
-          label: const Text('Novo Kanji'),
-        )
-      ],
+      ),
     );
   }
 }
@@ -151,7 +171,10 @@ class _KanjiGamePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     for (int i = tracoAtual; i < tracos.length; i++) {
-      canvas.drawLine(tracos[i].pontoInicio, tracos[i].pontoFim, paintGuia);
+      final t = tracos[i];
+      if (t.pontoInicio != null && t.pontoFim != null) {
+        canvas.drawLine(t.pontoInicio!, t.pontoFim!, paintGuia);
+      }
     }
 
     final paintDesenho = Paint()
