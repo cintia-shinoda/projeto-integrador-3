@@ -44,7 +44,6 @@ class ApiService {
   // Obter kanji aleatório
   static Future<Kanji?> getKanjiAleatorio() async {
     final response = await http.get(Uri.parse('$baseUrl/kanjis/aleatorio'));
-
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return Kanji.fromJson(data);

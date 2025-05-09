@@ -39,63 +39,96 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
   }
 
   bool _verificarTraco(Offset inicio, Offset fim) {
-    const double tolerancia = 40;
     if (kanji == null || tracoAtual >= kanji!.tracos.length) return false;
     final esperado = kanji!.tracos[tracoAtual];
     if (esperado.pontoInicio == null || esperado.pontoFim == null) return false;
-    bool inicioCorreto = (inicio - esperado.pontoInicio!).distance < tolerancia;
-    bool fimCorreto = (fim - esperado.pontoFim!).distance < tolerancia;
-    return inicioCorreto && fimCorreto;
+
+    final direcaoEsperada = (esperado.pontoFim! - esperado.pontoInicio!).direction;
+    final direcaoFeita = (fim - inicio).direction;
+    final deltaDirecao = (direcaoEsperada - direcaoFeita).abs();
+
+    final segmento = esperado.pontoFim! - esperado.pontoInicio!;
+    double somaDistancias = 0;
+    for (final p in pontos) {
+      final proj = _distanciaAoSegmento(p, esperado.pontoInicio!, esperado.pontoFim!);
+      somaDistancias += proj;
+    }
+    final mediaDistancia = somaDistancias / pontos.length;
+
+    const toleranciaDirecao = 1.2; // aumentada para 1.2 radianos
+    const toleranciaDistancia = 50.0; // aumentada para 50 pixels
+
+    final passou = deltaDirecao < toleranciaDirecao && mediaDistancia < toleranciaDistancia;
+
+    debugPrint('🧪 Traço verificado:');
+    debugPrint('- Ângulo esperado: $direcaoEsperada');
+    debugPrint('- Ângulo feito: $direcaoFeita');
+    debugPrint('- Delta ângulo: $deltaDirecao');
+    debugPrint('- Distância média: $mediaDistancia');
+    debugPrint('- Resultado: ${passou ? '✅ CORRETO' : '❌ ERRADO'}');
+
+    return passou;
+  }
+
+  double _distanciaAoSegmento(Offset p, Offset a, Offset b) {
+    final ab = b - a;
+    final ap = p - a;
+    final t = (ap.dx * ab.dx + ap.dy * ab.dy) / (ab.distanceSquared == 0 ? 1 : ab.distanceSquared);
+    final pontoMaisProximo = a + ab * t.clamp(0.0, 1.0);
+    return (p - pontoMaisProximo).distance;
   }
 
   void _limpar() {
     setState(() {
       pontos.clear();
-      tracoAtual = 0;
       mensagem = '';
     });
   }
 
   Widget _buildGestureCanvas() {
-    return GestureDetector(
-      onPanStart: (details) {
-        RenderBox box = context.findRenderObject() as RenderBox;
-        Offset local = box.globalToLocal(details.globalPosition);
-        pontos = [local];
-      },
-      onPanUpdate: (details) {
-        RenderBox box = context.findRenderObject() as RenderBox;
-        Offset local = box.globalToLocal(details.globalPosition);
-        setState(() => pontos.add(local));
-      },
-      onPanEnd: (_) {
-        if (pontos.length < 2) return;
-        Offset inicio = pontos.first;
-        Offset fim = pontos.last;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GestureDetector(
+          onPanStart: (details) {
+            final box = context.findRenderObject() as RenderBox;
+            Offset local = box.globalToLocal(details.globalPosition);
+            pontos = [local];
+          },
+          onPanUpdate: (details) {
+            final box = context.findRenderObject() as RenderBox;
+            Offset local = box.globalToLocal(details.globalPosition);
+            setState(() => pontos.add(local));
+          },
+          onPanEnd: (_) {
+            if (pontos.length < 2) return;
+            Offset inicio = pontos.first;
+            Offset fim = pontos.last;
 
-        if (_verificarTraco(inicio, fim)) {
-          setState(() {
-            tracoAtual++;
-            mensagem = '✅ Traço $tracoAtual correto!';
-            pontos.clear();
-          });
-        } else {
-          setState(() {
-            mensagem = '❌ Tente novamente';
-            pontos.clear();
-          });
-        }
-      },
-      child: CustomPaint(
-        painter: _KanjiGamePainter(pontos, kanji!.tracos, tracoAtual),
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.blue, width: 2),
+            if (_verificarTraco(inicio, fim)) {
+              setState(() {
+                tracoAtual++;
+                mensagem = '✅ Traço $tracoAtual correto!';
+                pontos.clear();
+              });
+            } else {
+              setState(() {
+                mensagem = '❌ Tente novamente';
+                pontos.clear();
+              });
+            }
+          },
+          child: CustomPaint(
+            painter: _KanjiGamePainter(pontos, kanji!.tracos, tracoAtual),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -165,13 +198,13 @@ class _KanjiGamePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paintGuia = Paint()
-      ..color = Colors.grey.shade300
-      ..strokeWidth = 8
-      ..strokeCap = StrokeCap.round;
-
-    for (int i = tracoAtual; i < tracos.length; i++) {
+    for (int i = 0; i < tracos.length; i++) {
       final t = tracos[i];
+      final paintGuia = Paint()
+        ..color = i < tracoAtual ? Colors.green : Colors.grey.shade300
+        ..strokeWidth = 8
+        ..strokeCap = StrokeCap.round;
+
       if (t.pontoInicio != null && t.pontoFim != null) {
         canvas.drawLine(t.pontoInicio!, t.pontoFim!, paintGuia);
       }

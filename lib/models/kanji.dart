@@ -16,7 +16,7 @@ class Traco {
   factory Traco.fromJson(Map<String, dynamic> json) {
     return Traco(
       ordem: json['ordem'],
-      svg: json['svg'] ?? '',
+      svg: json['svg'],
       pontoInicio: json['ponto_inicio'] != null
           ? Offset(
               (json['ponto_inicio']['x'] ?? 0).toDouble(),
@@ -50,11 +50,11 @@ class Kanji {
 
   factory Kanji.fromJson(Map<String, dynamic> json) {
     return Kanji(
-      leitura: json['kanji'] ?? '',
+      leitura: json['leitura'] ?? '',
       traducao: json['traducao'] ?? '',
       leituraKun: json['leitura_kun'] ?? '',
       leituraOn: json['leitura_on'] ?? '',
-      tracos: (json['tracos'] as List?)?.map((t) => Traco.fromJson(t)).toList() ?? [],
+      tracos: (json['tracos'] as List).map((t) => Traco.fromJson(t)).toList(),
     );
   }
 }

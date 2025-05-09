@@ -1,5 +1,6 @@
 # Projeto Integrador em Computação III
 
+[![Workflow Flutter CI](https://github.com/cintia-shinoda/projeto-integrador-3/actions/workflows/flutter_ci.yml/badge.svg)](https://github.com/cintia-shinoda/projeto-integrador-3/actions/workflows/flutter_ci.yml)
 
 ## Tema do PI
 Desenvolver um software com framework web ou aplicativo que utilize banco de dados, inclua script web (Javascript), nuvem, acessibilidade, controle de versão, integração contínua e testes. 
