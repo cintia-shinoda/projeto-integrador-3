@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import '../services/api_service.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final bool modoAltoContraste;
+  final void Function(bool) onToggleContraste;
+
+  const RegisterScreen({
+    super.key,
+    required this.modoAltoContraste,
+    required this.onToggleContraste,
+  });
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -15,62 +22,68 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String senha = '';
   String mensagem = '';
 
+  Future<void> _registrar() async {
+    final sucesso = await ApiService.register(nome, email, senha);
+    if (sucesso) {
+      Navigator.pop(context);
+    } else {
+      setState(() {
+        mensagem = 'Erro ao registrar';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cadastro')),
+      appBar: AppBar(
+        title: const Text('Cadastro'),
+        actions: [
+          Row(
+            children: [
+              const Text('Alto contraste'),
+              Switch(
+                value: widget.modoAltoContraste,
+                onChanged: widget.onToggleContraste,
+              ),
+            ],
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
+                key: const ValueKey('nomeField'),
                 decoration: const InputDecoration(labelText: 'Nome'),
                 onChanged: (value) => nome = value,
               ),
               TextFormField(
+                key: const ValueKey('emailField'),
                 decoration: const InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) => email = value,
               ),
               TextFormField(
+                key: const ValueKey('senhaField'),
                 decoration: const InputDecoration(labelText: 'Senha'),
                 obscureText: true,
                 onChanged: (value) => senha = value,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  final sucesso = await ApiService.register(nome, email, senha);
-                  setState(() {
-                    mensagem = sucesso
-                        ? '✅ Cadastro realizado com sucesso!'
-                        : '❌ Erro ao cadastrar. Tente novamente.';
-                  });
-
-                  if (sucesso) {
-                    Future.delayed(const Duration(seconds: 2), () {
-                      Navigator.pushReplacementNamed(context, '/login');
-                    });
-                  }
-                },
-                child: const Text('Cadastrar'),
+                key: const ValueKey('botaoCadastro'),
+                onPressed: _registrar,
+                child: const Text('Registrar'),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               Text(
                 mensagem,
-                style: TextStyle(
-                  color: mensagem.contains('✅') ? Colors.green : Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/login');
-                },
-                child: const Text('Já tem conta? Faça login'),
-              ),
+                style: const TextStyle(color: Colors.red),
+              )
             ],
           ),
         ),

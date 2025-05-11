@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import '../services/api_service.dart';
 import '../models/usuario.dart';
-import 'home_screen.dart'; 
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final bool modoAltoContraste;
+  final void Function(bool) onToggleContraste;
+
+  const LoginScreen({
+    super.key,
+    required this.modoAltoContraste,
+    required this.onToggleContraste,
+  });
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -13,98 +18,81 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final senhaController = TextEditingController();
+  String email = '';
+  String senha = '';
+  String mensagem = '';
 
-  bool _isLoading = false;
-  String? _errorMessage;
-
-  Future<void> _fazerLogin() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-
-    try {
-      final usuario = await ApiService.login(
-        emailController.text,
-        senhaController.text,
+  Future<void> _login() async {
+    final usuario = await ApiService.login(email, senha);
+    if (usuario != null) {
+      Navigator.pushReplacementNamed(
+        context,
+        '/home',
+        arguments: {
+          'usuario': usuario,
+        },
       );
-
-      if (usuario != null) {
-        // Login bem-sucedido: navegar para HomeScreen com o usuário
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(usuario: usuario),
-          ),
-        );
-      } else {
-        setState(() {
-          _errorMessage = 'Email ou senha inválidos.';
-        });
-      }
-    } catch (e) {
+    } else {
       setState(() {
-        _errorMessage = 'Erro de conexão com o servidor';
+        mensagem = 'Credenciais inválidas';
       });
     }
-
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    senhaController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(
+        title: const Text('Login'),
+        actions: [
+          Row(
+            children: [
+              const Text('Alto contraste'),
+              Switch(
+                value: widget.modoAltoContraste,
+                onChanged: widget.onToggleContraste,
+              ),
+            ],
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'E-mail'),
-                validator: (value) =>
-                    value == null || !value.contains('@') ? 'Email inválido' : null,
+                key: const ValueKey('emailLoginField'),
+                decoration: const InputDecoration(labelText: 'Email'),
+                onChanged: (value) => email = value,
               ),
               TextFormField(
-                controller: senhaController,
-                obscureText: true,
+                key: const ValueKey('senhaLoginField'),
                 decoration: const InputDecoration(labelText: 'Senha'),
-                validator: (value) =>
-                    value == null || value.length < 6 ? 'Mínimo 6 caracteres' : null,
+                obscureText: true,
+                onChanged: (value) => senha = value,
               ),
               const SizedBox(height: 20),
-              if (_errorMessage != null)
-                Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _fazerLogin();
-                        }
-                      },
-                      child: const Text('Entrar'),
-                    ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/register');
-                },
-                child: const Text('Não tem conta? Cadastre-se aqui'),
+              ElevatedButton(
+                key: const ValueKey('botaoLogin'),
+                onPressed: _login,
+                child: const Text('Entrar'),
               ),
+              const SizedBox(height: 10),
+              TextButton(
+                key: const ValueKey('botaoCriarConta'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: const Text('Criar conta'),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                mensagem,
+                style: const TextStyle(color: Colors.red),
+              )
             ],
           ),
         ),

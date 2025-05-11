@@ -1,4 +1,3 @@
-// lib/widgets/kanji_painter.dart
 import 'package:flutter/material.dart';
 
 class KanjiPainterWidget extends StatefulWidget {
