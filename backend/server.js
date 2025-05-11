@@ -39,9 +39,6 @@ app.listen(port, '0.0.0.0', () => {
 
 
 // Rota para Visualização do Status do Servidor
-app.get('/status', (req, res) => {
-  res.status(200).json({
-    status: 'Servidor ativo',
-    timestamp: new Date().toISOString()
-  });
+app.get('/', (req, res) => {
+  res.send('API do App de Kanji está Rodando com Sucesso!');
 });
