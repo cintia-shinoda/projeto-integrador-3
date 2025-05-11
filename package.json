@@ -1,0 +1,20 @@
+{
+  "name": "pi-3-repo",
+  "version": "1.0.0",
+  "description": "API do Projeto Integrador 3 – Aplicativo de Aprendizado de Kanji",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cintia-shinoda/projeto-integrador-3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cintia-shinoda/projeto-integrador-3/issues"
+  },
+  "homepage": "https://github.com/cintia-shinoda/projeto-integrador-3#readme"
+}

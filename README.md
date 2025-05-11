@@ -122,7 +122,7 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ---
 
 
-## Diagramas e Modelos do Projeto:
+## Diagramas e Modelos do Projeto
 
 ### Persona
 https://miro.com/app/board/uXjVIDg6SCs=/?share_link_id=872062743520
@@ -142,24 +142,24 @@ https://miro.com/app/board/uXjVIAmW3ZQ=/?share_link_id=480632220145
 ### Modelo Entidade-Relacionamento (MER)
 https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
 
+---
 
 
-<!-- -----------------------------------
-### Clonar o projeto do GitHub
+#### Clonar o projeto do GitHub
 ```bash
 git clone https://github.com/cintia-shinoda/projeto-integrador-3.git
 
 cd projeto-integrador-3
 ```
 
-### Back-End
+#### Back-End
 ```bash
 cd backend
 
 node server.js
 ```
 
-### Front-End
+#### Front-End
 ```bash
 flutter run
-``` -->
+```
