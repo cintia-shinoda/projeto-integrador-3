@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../models/kanji.dart';
 
@@ -18,38 +19,23 @@ class KanjiTracingGame extends StatefulWidget {
 class _KanjiTracingGameState extends State<KanjiTracingGame> {
   List<Offset> pontos = [];
   int tracoAtual = 0;
+  int pontuacao = 0;
   String mensagem = '';
 
-  static const double maxX = 300;
-  static const double maxY = 300;
-
-  bool _verificarTraco(Offset inicio, Offset fim, Size size) {
+  bool _verificarTraco(Offset inicio, Offset fim) {
     if (tracoAtual >= widget.kanji.tracos.length) return false;
-
     final esperado = widget.kanji.tracos[tracoAtual];
     if (esperado.pontoInicio == null || esperado.pontoFim == null) return false;
 
-    // Aplicar mesma escala dos traços
-    final double scaleX = size.width / maxX;
-    final double scaleY = size.height / maxY;
-
-    final Offset inicioEsperado = Offset(
-      esperado.pontoInicio!.dx * scaleX,
-      esperado.pontoInicio!.dy * scaleY,
-    );
-    final Offset fimEsperado = Offset(
-      esperado.pontoFim!.dx * scaleX,
-      esperado.pontoFim!.dy * scaleY,
-    );
-
-    final direcaoEsperada = (fimEsperado - inicioEsperado).direction;
+    final direcaoEsperada = (esperado.pontoFim! - esperado.pontoInicio!).direction;
     final direcaoFeita = (fim - inicio).direction;
     final deltaDirecao = (direcaoEsperada - direcaoFeita).abs();
 
-    final segmento = fimEsperado - inicioEsperado;
+    final segmento = esperado.pontoFim! - esperado.pontoInicio!;
     double somaDistancias = 0;
     for (final p in pontos) {
-      somaDistancias += _distanciaAoSegmento(p, inicioEsperado, fimEsperado);
+      final proj = _distanciaAoSegmento(p, esperado.pontoInicio!, esperado.pontoFim!);
+      somaDistancias += proj;
     }
     final mediaDistancia = somaDistancias / pontos.length;
 
@@ -57,13 +43,6 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
     const toleranciaDistancia = 50.0;
 
     final passou = deltaDirecao < toleranciaDirecao && mediaDistancia < toleranciaDistancia;
-
-    debugPrint('🧪 Traço verificado:');
-    debugPrint('- Ângulo esperado: $direcaoEsperada');
-    debugPrint('- Ângulo feito: $direcaoFeita');
-    debugPrint('- Delta ângulo: $deltaDirecao');
-    debugPrint('- Distância média: $mediaDistancia');
-    debugPrint('- Resultado: ${passou ? '✅ CORRETO' : '❌ ERRADO'}');
 
     return passou;
   }
@@ -80,7 +59,19 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
     setState(() {
       pontos.clear();
       mensagem = '';
+      tracoAtual = 0;
+      pontuacao = 0;
     });
+  }
+
+  void _novoKanji() {
+    setState(() {
+      pontos.clear();
+      mensagem = '';
+      tracoAtual = 0;
+      pontuacao = 0;
+    });
+    // Aqui você poderia chamar um callback para sortear um novo kanji se necessário
   }
 
   Widget _buildGestureCanvas() {
@@ -102,13 +93,11 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
             Offset inicio = pontos.first;
             Offset fim = pontos.last;
 
-            final box = context.findRenderObject() as RenderBox;
-            final size = box.size;
-
-            if (_verificarTraco(inicio, fim, size)) {
+            if (_verificarTraco(inicio, fim)) {
               setState(() {
                 tracoAtual++;
-                mensagem = '✅ Traço $tracoAtual correto!';
+                pontuacao += 10;
+                mensagem = "✅ Traço $tracoAtual correto! Pontuação: $pontuacao";
                 pontos.clear();
               });
             } else {
@@ -140,6 +129,8 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
 
   @override
   Widget build(BuildContext context) {
+    final terminou = tracoAtual >= widget.kanji.tracos.length;
+
     return Column(
       children: [
         SizedBox(
@@ -167,6 +158,12 @@ class _KanjiTracingGameState extends State<KanjiTracingGame> {
               icon: const Icon(Icons.refresh),
               label: const Text('Limpar'),
             ),
+            if (terminou)
+              ElevatedButton.icon(
+                onPressed: _novoKanji,
+                icon: const Icon(Icons.autorenew),
+                label: const Text('Novo Kanji'),
+              ),
           ],
         ),
       ],
@@ -182,27 +179,10 @@ class _KanjiGamePainter extends CustomPainter {
 
   _KanjiGamePainter(this.pontos, this.tracos, this.tracoAtual, this.modoAltoContraste);
 
-  static const double maxX = 300;
-  static const double maxY = 300;
-
   @override
   void paint(Canvas canvas, Size size) {
-    final double scaleX = size.width / maxX;
-    final double scaleY = size.height / maxY;
-
     for (int i = 0; i < tracos.length; i++) {
       final t = tracos[i];
-      if (t.pontoInicio == null || t.pontoFim == null) continue;
-
-      final Offset inicio = Offset(
-        t.pontoInicio!.dx * scaleX,
-        t.pontoInicio!.dy * scaleY,
-      );
-      final Offset fim = Offset(
-        t.pontoFim!.dx * scaleX,
-        t.pontoFim!.dy * scaleY,
-      );
-
       final paintGuia = Paint()
         ..color = i < tracoAtual
             ? Colors.green
@@ -210,7 +190,9 @@ class _KanjiGamePainter extends CustomPainter {
         ..strokeWidth = 8
         ..strokeCap = StrokeCap.round;
 
-      canvas.drawLine(inicio, fim, paintGuia);
+      if (t.pontoInicio != null && t.pontoFim != null) {
+        canvas.drawLine(t.pontoInicio!, t.pontoFim!, paintGuia);
+      }
     }
 
     final paintDesenho = Paint()
