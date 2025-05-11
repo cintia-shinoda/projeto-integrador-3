@@ -36,3 +36,12 @@ const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Servidor acessível em todas as interfaces na porta ${port}`);
 });
+
+
+// Rota para Visualização do Status do Servidor
+app.get('/status', (req, res) => {
+  res.status(200).json({
+    status: 'Servidor ativo',
+    timestamp: new Date().toISOString()
+  });
+});
