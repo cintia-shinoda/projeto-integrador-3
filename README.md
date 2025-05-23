@@ -13,17 +13,17 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 
 
 ## Tecnologias Utilizadas e Funcionalidades
-- Front-End: Dart (Framework: Flutter)
-- Back-End: JavaScript (Framework: Node.js (Express))
-- Banco de Dados: MongoDB Atlas
-- Controle de Versão: Git/GitHub
-- Testes: Postman
-- IDE: Visual Studio Code
+- Front-End: Dart (Framework: Flutter);
+- Back-End: JavaScript (Framework: Node.js | Express);
+- Diagramas e Modelos: Miro;
+- IDE (*Integrated Development Environment*): VS Code;
+- Banco de Dados: MongoDB Atlas;
+- Controle de Versão: Git e GitHub;
+- Testes: Postman;
 - Integração Contínua: GitHub Actions
-- Acessibilidade: Alto Contraste
+- Deploy: Render e Vercel
 
 <!-- - API: RESTful -->
-<!-- - Deploy: Render, Heroku ou Railway -->
 <!-- - Acessibilidade: Flutter Colorblind ou Flutter Accessibility -->
 
 
@@ -127,7 +127,7 @@ Incluir um dos seguintes requisitos: uso e fornecimento de API, análises de dad
 ### Persona
 https://miro.com/app/board/uXjVIDg6SCs=/?share_link_id=872062743520
 
-### Protótipo de Telas
+### Protótipos de Telas
 https://miro.com/app/board/uXjVIDg8nKU=/?share_link_id=804776781847
 
 ### Kanban
@@ -144,6 +144,12 @@ https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
 
 ---
 
+
+<img src="https://github.com/cintia-shinoda/projeto-integrador-3/blob/main/qr-code.png" alt="QR Code">
+
+---
+
+###
 
 #### Clonar o projeto do GitHub
 ```bash

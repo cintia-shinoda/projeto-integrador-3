@@ -1,4 +1,3 @@
-// lib/services/api_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/kanji.dart';
@@ -6,9 +5,10 @@ import '../models/usuario.dart';
 import 'dart:io';
 
 class ApiService {
-  static final String baseUrl = Platform.isMacOS
-    ? 'http://192.168.0.12:3000/api'
-    : 'http://localhost:3000/api';
+  // static final String baseUrl = Platform.isMacOS
+  //   ? 'http://192.168.0.12:3000/api'
+  //   : 'http://localhost:3000/api';
+  static const String baseUrl = 'https://kanji-backend-kbhr.onrender.com/api';
 
   // Login
   static Future<Usuario?> login(String email, String senha) async {
