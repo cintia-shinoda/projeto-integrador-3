@@ -1,6 +1,13 @@
 # Projeto Integrador em Computação III
 
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/cintia-shinoda/projeto-integrador-3" alt="GitHub Last Commit" />
+  <img src="https://img.shields.io/github/forks/cintia-shinoda/projeto-integrador-3" alt="GitHub Forks" />
+  <img src="https://img.shields.io/github/stars/cintia-shinoda/projeto-integrador-3" alt="GitHub Stars" />
+</p>
+
 [![Workflow Flutter CI](https://github.com/cintia-shinoda/projeto-integrador-3/actions/workflows/flutter_ci.yml/badge.svg)](https://github.com/cintia-shinoda/projeto-integrador-3/actions/workflows/flutter_ci.yml)
+
 
 ## Tema do PI
 Desenvolver um software com framework web ou aplicativo que utilize banco de dados, inclua script web (Javascript), nuvem, acessibilidade, controle de versão, integração contínua e testes. 
@@ -145,7 +152,7 @@ https://miro.com/app/board/uXjVID-LilI=/?share_link_id=160092579356
 ---
 
 
-<img src="https://github.com/cintia-shinoda/projeto-integrador-3/blob/main/qr-code.png" alt="QR Code">
+<img src="https://github.com/cintia-shinoda/projeto-integrador-3/blob/main/qr-code.png" align alt="QR Code">
 
 ---
 
@@ -169,3 +176,24 @@ node server.js
 ```bash
 flutter run
 ```
+
+<br>
+
+---
+
+
+## License
+
+   Copyright 2025 Cintia I. Shinoda
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
